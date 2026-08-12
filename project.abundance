@@ -4470,14 +4470,14 @@
         },
         {
           "name": "Part Name",
-          "ioValue": "hullform",
-          "currentEquation": "hullform"
+          "ioValue": "kayakhull",
+          "currentEquation": "kayakhull"
         }
       ],
       "type": null,
       "resolution": 96,
       "importIndex": 0,
-      "partName": "hullform"
+      "partName": "kayakhull"
     },
     {
       "atomType": "GitHubMolecule",
@@ -4570,23 +4570,6 @@
       "unitsKey": "Unitless",
       "fileTypeVersion": 1,
       "lastReloadedFromGithubAt": 1786555164550
-    },
-    {
-      "atomType": "ExtractTag",
-      "x": 0.8235677083333333,
-      "y": 0.7485714285714287,
-      "uniqueID": "id-74163",
-      "name": "Extract Tag",
-      "ioValues": [
-        {
-          "name": "geometry",
-          "ioValue": "__GEOMETRY_INPUT__"
-        }
-      ],
-      "tagIndex": 0,
-      "selectedTags": [],
-      "includeUntagged": false,
-      "notKeepOut": false
     }
   ],
   "allConnectors": [
@@ -4594,11 +4577,6 @@
       "ap2Name": "FaceAssembly",
       "ap1ID": "id-27926",
       "ap2ID": "id-74154"
-    },
-    {
-      "ap2Name": "geometry",
-      "ap1ID": "id-27926",
-      "ap2ID": "id-74163"
     },
     {
       "ap2Name": "Shape 5",
