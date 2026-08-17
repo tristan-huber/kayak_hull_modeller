@@ -30,15 +30,15 @@
     },
     {
       "atomType": "Input",
-      "x": 0.0231,
-      "y": 0.3171428571428571,
+      "x": 0.025384615384615384,
+      "y": 0.15384615384615385,
       "uniqueID": "id-26203",
       "name": "Breadth"
     },
     {
       "atomType": "Input",
-      "x": 0.0231,
-      "y": 0.5371428571428571,
+      "x": 0.025384615384615384,
+      "y": 0.24615384615384617,
       "uniqueID": "id-26206",
       "name": "length"
     },
@@ -61,6 +61,36 @@
           "ioValue": null
         }
       ]
+    },
+    {
+      "atomType": "Export",
+      "x": 0.7272135416666666,
+      "y": 0.22285714285714286,
+      "uniqueID": "id-74145",
+      "ioValues": [
+        {
+          "name": "geometry",
+          "ioValue": "__GEOMETRY_INPUT__"
+        },
+        {
+          "name": "File Type",
+          "ioValue": "STEP",
+          "currentEquation": "STEP"
+        },
+        {
+          "name": "Resolution (dpi)",
+          "ioValue": 96
+        },
+        {
+          "name": "Part Name",
+          "ioValue": "kayakhull",
+          "currentEquation": "kayakhull"
+        }
+      ],
+      "type": null,
+      "resolution": 96,
+      "importIndex": 0,
+      "partName": "kayakhull"
     },
     {
       "atomType": "GitHubMolecule",
@@ -99,8 +129,8 @@
         },
         {
           "atomType": "Input",
-          "x": 0.0231,
-          "y": 0.14,
+          "x": 0.025384615384615384,
+          "y": 0.15384615384615385,
           "uniqueID": "id-27903",
           "name": "assembly"
         }
@@ -190,8 +220,8 @@
         },
         {
           "atomType": "Input",
-          "x": 0.0231,
-          "y": 0.14,
+          "x": 0.025384615384615384,
+          "y": 0.15384615384615385,
           "uniqueID": "id-40650",
           "name": "faceAssembly",
           "type": "geometry"
@@ -238,6 +268,98 @@
       "unitsKey": "Unitless",
       "fileTypeVersion": 1,
       "lastReloadedFromGithubAt": 1785174335502
+    },
+    {
+      "atomType": "GitHubMolecule",
+      "x": 0.640625,
+      "y": 0.7742857142857142,
+      "uniqueID": "id-74154",
+      "name": "facesToSolid",
+      "ioValues": [
+        {
+          "name": "FaceAssembly",
+          "ioValue": "__GEOMETRY_INPUT__"
+        }
+      ],
+      "topLevel": false,
+      "allAtoms": [
+        {
+          "atomType": "Output",
+          "x": 0.98,
+          "y": 0.5,
+          "uniqueID": "id-74151",
+          "ioValues": [
+            {
+              "name": "number or geometry",
+              "ioValue": "__GEOMETRY_INPUT__"
+            }
+          ]
+        },
+        {
+          "atomType": "Code",
+          "x": 0.5261718750000001,
+          "y": 0.3896103896103896,
+          "uniqueID": "id-74152",
+          "ioValues": [
+            {
+              "name": "faces",
+              "ioValue": "__GEOMETRY_INPUT__"
+            }
+          ],
+          "interpreterVersion": 1,
+          "code": "function run(faces: Assembly) {\n  const faceList: any[] = []\n  faces.onLeafs((leaf) => {\n    if (leaf.geometry instanceof replicad.Face) {\n      faceList.push(leaf.geometry)\n      return leaf;\n    } else if (leaf.is3D()) {\n      if (leaf.geometry instanceof replicad.Shell) {\n        faceList.push(leaf.geometry)\n      } else {\n        console.warn(\"got a non-face non-shell entry. attempting to extract it's faces\")\n        console.log(leaf.geometry instanceof replicad.Compound)\n        for (const face of leaf.geometry.faces) {\n          faceList.push(face);\n        }\n      }\n      return leaf;\n    } else {\n      throw Error(\"input must be faces or other 3dshape.\")\n    }\n  });\n  const validatedFaces = faceList.filter((f) => replicad.measureArea(f) > 0.00001)\n  let comp = replicad.weldShellsAndFaces(validatedFaces, true)\n  const shells = Array.from(replicad.iterTopo(comp.wrapped, \"shell\"))\n  comp = replicad.makeSolid(shells.map(replicad.cast))\n  return comp\n}",
+          "compiledCode": "\"use strict\";\nfunction run(faces) {\n    const faceList = [];\n    faces.onLeafs((leaf) => {\n        if (leaf.geometry instanceof replicad.Face) {\n            faceList.push(leaf.geometry);\n            return leaf;\n        }\n        else if (leaf.is3D()) {\n            if (leaf.geometry instanceof replicad.Shell) {\n                faceList.push(leaf.geometry);\n            }\n            else {\n                console.warn(\"got a non-face non-shell entry. attempting to extract it's faces\");\n                console.log(leaf.geometry instanceof replicad.Compound);\n                for (const face of leaf.geometry.faces) {\n                    faceList.push(face);\n                }\n            }\n            return leaf;\n        }\n        else {\n            throw Error(\"input must be faces or other 3dshape.\");\n        }\n    });\n    const validatedFaces = faceList.filter((f) => replicad.measureArea(f) > 0.00001);\n    let comp = replicad.weldShellsAndFaces(validatedFaces, true);\n    const shells = Array.from(replicad.iterTopo(comp.wrapped, \"shell\"));\n    comp = replicad.makeSolid(shells.map(replicad.cast));\n    return comp;\n}\n"
+        },
+        {
+          "atomType": "Input",
+          "x": 0.025384615384615384,
+          "y": 0.15384615384615385,
+          "uniqueID": "id-74153",
+          "name": "FaceAssembly",
+          "type": "geometry"
+        }
+      ],
+      "allConnectors": [
+        {
+          "ap2Name": "number or geometry",
+          "ap1ID": "id-74152",
+          "ap2ID": "id-74151"
+        },
+        {
+          "ap2Name": "faces",
+          "ap1ID": "id-74153",
+          "ap2ID": "id-74152"
+        }
+      ],
+      "parentRepo": {
+        "lastFoundGit": "2026-08-12T10:23:38.987Z",
+        "privateRepo": false,
+        "repoName": "facesToSolid",
+        "dateCreated": "2026-07-04T21:08:34Z",
+        "likes": 0,
+        "readMe": "https://raw.githubusercontent.com/tristan-huber/facesToSolid/master/README.md?sanitize=true",
+        "yyyy": 2026,
+        "topMoleculeID": "id-22553",
+        "githubMoleculesUsed": [],
+        "html_url": "https://github.com/tristan-huber/facesToSolid",
+        "topics": [
+          "abundance-tool"
+        ],
+        "pullRequests": [],
+        "parentRepo": null,
+        "forks": 0,
+        "dateModified": "739814",
+        "ranking": 1.8,
+        "searchField": "facestosolid tristan-huber make a solid based on an assembly of faces that fully enclose a volume.  abundance-tool",
+        "owner": "tristan-huber",
+        "description": "make a solid based on an assembly of faces that fully enclose a volume. ",
+        "contentURL": "https://raw.githubusercontent.com/tristan-huber/facesToSolid/master/project.abundance?sanitize=true",
+        "svgURL": "https://raw.githubusercontent.com/tristan-huber/facesToSolid/master/project.svg?sanitize=true",
+        "isLocal": false
+      },
+      "unitsKey": "Unitless",
+      "fileTypeVersion": 1,
+      "lastReloadedFromGithubAt": 1786555164550
     },
     {
       "atomType": "Molecule",
@@ -590,8 +712,8 @@
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.14,
+              "x": 0.025384615384615384,
+              "y": 0.15384615384615385,
               "uniqueID": "id-26917",
               "name": "X"
             },
@@ -620,15 +742,15 @@
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.22400000000000003,
+              "x": 0.025384615384615384,
+              "y": 0.24615384615384617,
               "uniqueID": "id-26919",
               "name": "Y"
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.30800000000000005,
+              "x": 0.025384615384615384,
+              "y": 0.3384615384615385,
               "uniqueID": "id-26920",
               "name": "Z"
             }
@@ -723,8 +845,8 @@
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.14,
+              "x": 0.025384615384615384,
+              "y": 0.15384615384615385,
               "uniqueID": "id-26923",
               "name": "X"
             },
@@ -753,15 +875,15 @@
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.22400000000000003,
+              "x": 0.025384615384615384,
+              "y": 0.24615384615384617,
               "uniqueID": "id-26925",
               "name": "Y"
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.30800000000000005,
+              "x": 0.025384615384615384,
+              "y": 0.3384615384615385,
               "uniqueID": "id-26926",
               "name": "Z"
             }
@@ -855,8 +977,8 @@
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.14,
+              "x": 0.025384615384615384,
+              "y": 0.15384615384615385,
               "uniqueID": "id-26929",
               "name": "X"
             },
@@ -885,15 +1007,15 @@
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.22400000000000003,
+              "x": 0.025384615384615384,
+              "y": 0.24615384615384617,
               "uniqueID": "id-26931",
               "name": "Y"
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.30800000000000005,
+              "x": 0.025384615384615384,
+              "y": 0.3384615384615385,
               "uniqueID": "id-26932",
               "name": "Z"
             }
@@ -978,16 +1100,16 @@
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.14,
+              "x": 0.025384615384615384,
+              "y": 0.15384615384615385,
               "uniqueID": "id-26941",
               "name": "Geometry",
               "type": "number"
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.22400000000000003,
+              "x": 0.025384615384615384,
+              "y": 0.24615384615384617,
               "uniqueID": "id-26942",
               "name": "Scale Factor",
               "type": "number"
@@ -1101,8 +1223,8 @@
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.14,
+              "x": 0.025384615384615384,
+              "y": 0.15384615384615385,
               "uniqueID": "id-37391",
               "name": "X"
             },
@@ -1131,15 +1253,15 @@
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.22400000000000003,
+              "x": 0.025384615384615384,
+              "y": 0.24615384615384617,
               "uniqueID": "id-37393",
               "name": "Y"
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.30800000000000005,
+              "x": 0.025384615384615384,
+              "y": 0.3384615384615385,
               "uniqueID": "id-37394",
               "name": "Z"
             }
@@ -1247,16 +1369,16 @@
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.14,
+              "x": 0.025384615384615384,
+              "y": 0.15384615384615385,
               "uniqueID": "id-40480",
               "name": "Points",
               "type": "geometry"
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.22400000000000003,
+              "x": 0.025384615384615384,
+              "y": 0.24615384615384617,
               "uniqueID": "id-40481",
               "name": "close",
               "type": "boolean"
@@ -1349,40 +1471,40 @@
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.14,
+              "x": 0.025384615384615384,
+              "y": 0.15384615384615385,
               "uniqueID": "id-40559",
               "name": "Geometry",
               "type": "number"
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.22400000000000003,
+              "x": 0.025384615384615384,
+              "y": 0.24615384615384617,
               "uniqueID": "id-40560",
               "name": "Offset",
               "type": "number"
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.30800000000000005,
+              "x": 0.025384615384615384,
+              "y": 0.3384615384615385,
               "uniqueID": "id-40561",
               "name": "Angle X",
               "type": "number"
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.39200000000000007,
+              "x": 0.025384615384615384,
+              "y": 0.4307692307692308,
               "uniqueID": "id-40562",
               "name": "Angle Z",
               "type": "number"
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.4760000000000001,
+              "x": 0.025384615384615384,
+              "y": 0.5230769230769231,
               "uniqueID": "id-40563",
               "name": "Angle Y",
               "type": "number"
@@ -1615,16 +1737,16 @@
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.14,
+              "x": 0.025384615384615384,
+              "y": 0.15384615384615385,
               "uniqueID": "id-40606",
               "name": "Wires",
               "type": "geometry"
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.22400000000000003,
+              "x": 0.025384615384615384,
+              "y": 0.24615384615384617,
               "uniqueID": "id-40607",
               "name": "Thickness",
               "type": "number"
@@ -1704,8 +1826,8 @@
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.14,
+              "x": 0.025384615384615384,
+              "y": 0.15384615384615385,
               "uniqueID": "id-41403",
               "name": "Assembly",
               "type": "faceselect",
@@ -1946,15 +2068,15 @@
         },
         {
           "atomType": "Input",
-          "x": 0.0231,
-          "y": 0.14,
+          "x": 0.025384615384615384,
+          "y": 0.15384615384615385,
           "uniqueID": "id-27199",
           "name": "width"
         },
         {
           "atomType": "Input",
-          "x": 0.0231,
-          "y": 0.22400000000000003,
+          "x": 0.025384615384615384,
+          "y": 0.24615384615384617,
           "uniqueID": "id-27202",
           "name": "length"
         },
@@ -1973,8 +2095,8 @@
         },
         {
           "atomType": "Input",
-          "x": 0.0231,
-          "y": 0.30800000000000005,
+          "x": 0.025384615384615384,
+          "y": 0.3384615384615385,
           "uniqueID": "id-27269",
           "name": "back_support_diam"
         },
@@ -2312,8 +2434,8 @@
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.14,
+              "x": 0.025384615384615384,
+              "y": 0.15384615384615385,
               "uniqueID": "id-27417",
               "name": "assembly"
             }
@@ -2396,16 +2518,16 @@
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.14,
+              "x": 0.025384615384615384,
+              "y": 0.15384615384615385,
               "uniqueID": "id-27505",
               "name": "Shape",
               "type": "geometry"
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.22400000000000003,
+              "x": 0.025384615384615384,
+              "y": 0.24615384615384617,
               "uniqueID": "id-27506",
               "name": "Radius"
             },
@@ -2499,8 +2621,8 @@
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.30800000000000005,
+              "x": 0.025384615384615384,
+              "y": 0.3384615384615385,
               "uniqueID": "id-27512",
               "name": "Bounding_Box",
               "type": "geometry"
@@ -2752,24 +2874,24 @@
         },
         {
           "atomType": "Input",
-          "x": 0.0231,
-          "y": 0.14,
+          "x": 0.025384615384615384,
+          "y": 0.15384615384615385,
           "uniqueID": "id-27571",
           "name": "cockpit_plug",
           "type": "geometry"
         },
         {
           "atomType": "Input",
-          "x": 0.0231,
-          "y": 0.22400000000000003,
+          "x": 0.025384615384615384,
+          "y": 0.24615384615384617,
           "uniqueID": "id-27574",
           "name": "panels",
           "type": "geometry"
         },
         {
           "atomType": "Input",
-          "x": 0.0231,
-          "y": 0.30800000000000005,
+          "x": 0.025384615384615384,
+          "y": 0.3384615384615385,
           "uniqueID": "id-27594",
           "name": "dipRadius"
         },
@@ -2812,8 +2934,8 @@
         },
         {
           "atomType": "Input",
-          "x": 0.0231,
-          "y": 0.39200000000000007,
+          "x": 0.025384615384615384,
+          "y": 0.4307692307692308,
           "uniqueID": "id-27606",
           "name": "aftOffset"
         },
@@ -2959,8 +3081,8 @@
         },
         {
           "atomType": "Input",
-          "x": 0.0231,
-          "y": 0.4760000000000001,
+          "x": 0.025384615384615384,
+          "y": 0.5230769230769231,
           "uniqueID": "id-27809",
           "name": "downOffset"
         },
@@ -2982,8 +3104,8 @@
         },
         {
           "atomType": "Input",
-          "x": 0.0231,
-          "y": 0.56,
+          "x": 0.025384615384615384,
+          "y": 0.6153846153846154,
           "uniqueID": "id-37310",
           "name": "cockpitTilt"
         },
@@ -3166,8 +3288,8 @@
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.14,
+              "x": 0.025384615384615384,
+              "y": 0.15384615384615385,
               "uniqueID": "id-27769",
               "name": "wires",
               "type": "geometry"
@@ -3251,8 +3373,8 @@
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.14,
+              "x": 0.025384615384615384,
+              "y": 0.15384615384615385,
               "uniqueID": "id-27787",
               "name": "assembly"
             }
@@ -3331,16 +3453,16 @@
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.14,
+              "x": 0.025384615384615384,
+              "y": 0.15384615384615385,
               "uniqueID": "id-27840",
               "name": "shape",
               "type": "geometry"
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.22400000000000003,
+              "x": 0.025384615384615384,
+              "y": 0.24615384615384617,
               "uniqueID": "id-27841",
               "name": "index"
             },
@@ -3609,16 +3731,16 @@
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.14,
+              "x": 0.025384615384615384,
+              "y": 0.15384615384615385,
               "uniqueID": "id-27864",
               "name": "shape",
               "type": "geometry"
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.22400000000000003,
+              "x": 0.025384615384615384,
+              "y": 0.24615384615384617,
               "uniqueID": "id-27865",
               "name": "index"
             }
@@ -3748,8 +3870,8 @@
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.14,
+              "x": 0.025384615384615384,
+              "y": 0.15384615384615385,
               "uniqueID": "id-38187",
               "name": "faceAssembly",
               "type": "geometry"
@@ -3837,8 +3959,8 @@
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.14,
+              "x": 0.025384615384615384,
+              "y": 0.15384615384615385,
               "uniqueID": "id-41172",
               "name": "shape",
               "type": "geometry"
@@ -3956,8 +4078,8 @@
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.14,
+              "x": 0.025384615384615384,
+              "y": 0.15384615384615385,
               "uniqueID": "id-43360",
               "name": "primaryEdge",
               "type": "edgeselect",
@@ -3965,8 +4087,8 @@
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.22400000000000003,
+              "x": 0.025384615384615384,
+              "y": 0.24615384615384617,
               "uniqueID": "id-43363",
               "name": "primaryEdge_1",
               "type": "edgeselect",
@@ -3974,16 +4096,16 @@
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.30800000000000005,
+              "x": 0.025384615384615384,
+              "y": 0.3384615384615385,
               "uniqueID": "id-43366",
               "name": "holes",
               "type": "geometry"
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.39200000000000007,
+              "x": 0.025384615384615384,
+              "y": 0.4307692307692308,
               "uniqueID": "id-43369",
               "name": "rulings"
             }
@@ -4049,16 +4171,16 @@
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.14,
+              "x": 0.025384615384615384,
+              "y": 0.15384615384615385,
               "uniqueID": "id-27670",
               "name": "shape",
               "type": "geometry"
             },
             {
               "atomType": "Input",
-              "x": 0.0231,
-              "y": 0.22400000000000003,
+              "x": 0.025384615384615384,
+              "y": 0.24615384615384617,
               "uniqueID": "id-27671",
               "name": "index",
               "type": "number"
@@ -4167,16 +4289,16 @@
                 },
                 {
                   "atomType": "Input",
-                  "x": 0.0231,
-                  "y": 0.14,
+                  "x": 0.025384615384615384,
+                  "y": 0.15384615384615385,
                   "uniqueID": "id-27678",
                   "name": "shape",
                   "type": "geometry"
                 },
                 {
                   "atomType": "Input",
-                  "x": 0.0231,
-                  "y": 0.22400000000000003,
+                  "x": 0.025384615384615384,
+                  "y": 0.24615384615384617,
                   "uniqueID": "id-27679",
                   "name": "index"
                 },
@@ -4448,128 +4570,6 @@
         }
       ],
       "fileTypeVersion": 1
-    },
-    {
-      "atomType": "Export",
-      "x": 0.7272135416666666,
-      "y": 0.22285714285714286,
-      "uniqueID": "id-74145",
-      "ioValues": [
-        {
-          "name": "geometry",
-          "ioValue": "__GEOMETRY_INPUT__"
-        },
-        {
-          "name": "File Type",
-          "ioValue": "STEP",
-          "currentEquation": "STEP"
-        },
-        {
-          "name": "Resolution (dpi)",
-          "ioValue": 96
-        },
-        {
-          "name": "Part Name",
-          "ioValue": "kayakhull",
-          "currentEquation": "kayakhull"
-        }
-      ],
-      "type": null,
-      "resolution": 96,
-      "importIndex": 0,
-      "partName": "kayakhull"
-    },
-    {
-      "atomType": "GitHubMolecule",
-      "x": 0.640625,
-      "y": 0.7742857142857142,
-      "uniqueID": "id-74154",
-      "name": "facesToSolid",
-      "ioValues": [
-        {
-          "name": "FaceAssembly",
-          "ioValue": "__GEOMETRY_INPUT__"
-        }
-      ],
-      "topLevel": false,
-      "allAtoms": [
-        {
-          "atomType": "Output",
-          "x": 0.98,
-          "y": 0.5,
-          "uniqueID": "id-74151",
-          "ioValues": [
-            {
-              "name": "number or geometry",
-              "ioValue": "__GEOMETRY_INPUT__"
-            }
-          ]
-        },
-        {
-          "atomType": "Code",
-          "x": 0.5261718750000001,
-          "y": 0.3896103896103896,
-          "uniqueID": "id-74152",
-          "ioValues": [
-            {
-              "name": "faces",
-              "ioValue": "__GEOMETRY_INPUT__"
-            }
-          ],
-          "interpreterVersion": 1,
-          "code": "function run(faces: Assembly) {\n  const faceList: any[] = []\n  faces.onLeafs((leaf) => {\n    if (leaf.geometry instanceof replicad.Face) {\n      faceList.push(leaf.geometry)\n      return leaf;\n    } else if (leaf.is3D()) {\n      if (leaf.geometry instanceof replicad.Shell) {\n        faceList.push(leaf.geometry)\n      } else {\n        console.warn(\"got a non-face non-shell entry. attempting to extract it's faces\")\n        console.log(leaf.geometry instanceof replicad.Compound)\n        for (const face of leaf.geometry.faces) {\n          faceList.push(face);\n        }\n      }\n      return leaf;\n    } else {\n      throw Error(\"input must be faces or other 3dshape.\")\n    }\n  });\n  const validatedFaces = faceList.filter((f) => replicad.measureArea(f) > 0.00001)\n  let comp = replicad.weldShellsAndFaces(validatedFaces, true)\n  const shells = Array.from(replicad.iterTopo(comp.wrapped, \"shell\"))\n  comp = replicad.makeSolid(shells.map(replicad.cast))\n  return comp\n}",
-          "compiledCode": "\"use strict\";\nfunction run(faces) {\n    const faceList = [];\n    faces.onLeafs((leaf) => {\n        if (leaf.geometry instanceof replicad.Face) {\n            faceList.push(leaf.geometry);\n            return leaf;\n        }\n        else if (leaf.is3D()) {\n            if (leaf.geometry instanceof replicad.Shell) {\n                faceList.push(leaf.geometry);\n            }\n            else {\n                console.warn(\"got a non-face non-shell entry. attempting to extract it's faces\");\n                console.log(leaf.geometry instanceof replicad.Compound);\n                for (const face of leaf.geometry.faces) {\n                    faceList.push(face);\n                }\n            }\n            return leaf;\n        }\n        else {\n            throw Error(\"input must be faces or other 3dshape.\");\n        }\n    });\n    const validatedFaces = faceList.filter((f) => replicad.measureArea(f) > 0.00001);\n    let comp = replicad.weldShellsAndFaces(validatedFaces, true);\n    const shells = Array.from(replicad.iterTopo(comp.wrapped, \"shell\"));\n    comp = replicad.makeSolid(shells.map(replicad.cast));\n    return comp;\n}\n"
-        },
-        {
-          "atomType": "Input",
-          "x": 0.0231,
-          "y": 0.14,
-          "uniqueID": "id-74153",
-          "name": "FaceAssembly",
-          "type": "geometry"
-        }
-      ],
-      "allConnectors": [
-        {
-          "ap2Name": "number or geometry",
-          "ap1ID": "id-74152",
-          "ap2ID": "id-74151"
-        },
-        {
-          "ap2Name": "faces",
-          "ap1ID": "id-74153",
-          "ap2ID": "id-74152"
-        }
-      ],
-      "parentRepo": {
-        "lastFoundGit": "2026-08-12T10:23:38.987Z",
-        "privateRepo": false,
-        "repoName": "facesToSolid",
-        "dateCreated": "2026-07-04T21:08:34Z",
-        "likes": 0,
-        "readMe": "https://raw.githubusercontent.com/tristan-huber/facesToSolid/master/README.md?sanitize=true",
-        "yyyy": 2026,
-        "topMoleculeID": "id-22553",
-        "githubMoleculesUsed": [],
-        "html_url": "https://github.com/tristan-huber/facesToSolid",
-        "topics": [
-          "abundance-tool"
-        ],
-        "pullRequests": [],
-        "parentRepo": null,
-        "forks": 0,
-        "dateModified": "739814",
-        "ranking": 1.8,
-        "searchField": "facestosolid tristan-huber make a solid based on an assembly of faces that fully enclose a volume.  abundance-tool",
-        "owner": "tristan-huber",
-        "description": "make a solid based on an assembly of faces that fully enclose a volume. ",
-        "contentURL": "https://raw.githubusercontent.com/tristan-huber/facesToSolid/master/project.abundance?sanitize=true",
-        "svgURL": "https://raw.githubusercontent.com/tristan-huber/facesToSolid/master/project.svg?sanitize=true",
-        "isLocal": false
-      },
-      "unitsKey": "Unitless",
-      "fileTypeVersion": 1,
-      "lastReloadedFromGithubAt": 1786555164550
     }
   ],
   "allConnectors": [
@@ -4599,6 +4599,16 @@
       "ap2ID": "id-27926"
     },
     {
+      "ap2Name": "geometry",
+      "ap1ID": "id-74154",
+      "ap2ID": "id-74145"
+    },
+    {
+      "ap2Name": "number or geometry",
+      "ap1ID": "id-74154",
+      "ap2ID": "id-130"
+    },
+    {
       "ap2Name": "faceAssembly",
       "ap1ID": "id-26906",
       "ap2ID": "id-40651"
@@ -4612,16 +4622,6 @@
       "ap2Name": "Shape 1",
       "ap1ID": "id-27561",
       "ap2ID": "id-27926"
-    },
-    {
-      "ap2Name": "geometry",
-      "ap1ID": "id-74154",
-      "ap2ID": "id-74145"
-    },
-    {
-      "ap2Name": "number or geometry",
-      "ap1ID": "id-74154",
-      "ap2ID": "id-130"
     }
   ],
   "unitsKey": "Inches",
