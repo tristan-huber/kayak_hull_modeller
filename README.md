@@ -2,7 +2,7 @@
 
 # kayak_hull_modeller
 
-![](/project.svg)
+![](/project.png)
 
 ## Inputs
 
