@@ -1386,10 +1386,10 @@
               "type": "faceselect",
               "selectedFaceData": {
                 "0": [
-                  0
+                  7
                 ],
                 "1": [
-                  0
+                  3
                 ]
               }
             },
@@ -1470,7 +1470,7 @@
           "atomType": "GitHubMolecule",
           "x": 0.6,
           "y": 0.6,
-          "uniqueID": "id-75325",
+          "uniqueID": "id-75930",
           "name": "crv.OpenWireLoft",
           "ioValues": [
             {
@@ -1479,7 +1479,7 @@
             },
             {
               "name": "Thickness",
-              "ioValue": -0.25
+              "ioValue": 0.25
             }
           ],
           "topLevel": false,
@@ -1488,7 +1488,7 @@
               "atomType": "Output",
               "x": 1,
               "y": 0.5,
-              "uniqueID": "id-75321",
+              "uniqueID": "id-75926",
               "ioValues": [
                 {
                   "name": "number or geometry",
@@ -1500,7 +1500,7 @@
               "atomType": "Code",
               "x": 0.4,
               "y": 0.5,
-              "uniqueID": "id-75322",
+              "uniqueID": "id-75927",
               "ioValues": [
                 {
                   "name": "wires",
@@ -1508,7 +1508,7 @@
                 },
                 {
                   "name": "thickness",
-                  "ioValue": -0.25
+                  "ioValue": 0.25
                 }
               ],
               "interpreterVersion": 1,
@@ -1519,7 +1519,7 @@
               "atomType": "Input",
               "x": 0,
               "y": 0.1,
-              "uniqueID": "id-75323",
+              "uniqueID": "id-75928",
               "name": "Wires",
               "type": "geometry"
             },
@@ -1527,7 +1527,7 @@
               "atomType": "Input",
               "x": 0,
               "y": 0.2,
-              "uniqueID": "id-75324",
+              "uniqueID": "id-75929",
               "name": "Thickness",
               "type": "number"
             }
@@ -1535,18 +1535,18 @@
           "allConnectors": [
             {
               "ap2Name": "number or geometry",
-              "ap1ID": "id-75322",
-              "ap2ID": "id-75321"
+              "ap1ID": "id-75927",
+              "ap2ID": "id-75926"
             },
             {
               "ap2Name": "wires",
-              "ap1ID": "id-75323",
-              "ap2ID": "id-75322"
+              "ap1ID": "id-75928",
+              "ap2ID": "id-75927"
             },
             {
               "ap2Name": "thickness",
-              "ap1ID": "id-75324",
-              "ap2ID": "id-75322"
+              "ap1ID": "id-75929",
+              "ap2ID": "id-75927"
             }
           ],
           "parentRepo": {
@@ -1576,7 +1576,7 @@
           },
           "unitsKey": "Unitless",
           "fileTypeVersion": 1,
-          "lastReloadedFromGithubAt": 1789497363866
+          "lastReloadedFromGithubAt": 1789497709202
         }
       ],
       "allConnectors": [
@@ -1618,7 +1618,7 @@
         {
           "ap2Name": "Wires",
           "ap1ID": "id-26948",
-          "ap2ID": "id-75325"
+          "ap2ID": "id-75930"
         },
         {
           "ap2Name": "Shape 4",
@@ -1707,7 +1707,7 @@
         },
         {
           "ap2Name": "Geometry",
-          "ap1ID": "id-75325",
+          "ap1ID": "id-75930",
           "ap2ID": "id-40569"
         }
       ],
@@ -3173,7 +3173,7 @@
             {
               "name": "Shape 1",
               "ioValue": {
-                "geometry": "1033ff47-0",
+                "geometry": "ac7fcf90-0",
                 "color": "#3c5a6e",
                 "tags": [],
                 "bom": [],
@@ -3228,7 +3228,7 @@
             },
             {
               "name": "Shape 4",
-              "ioValue": null
+              "ioValue": "__GEOMETRY_INPUT__"
             }
           ],
           "closedSelection": 0
@@ -3269,8 +3269,7 @@
             },
             {
               "name": "index",
-              "ioValue": 0,
-              "currentEquation": "0"
+              "ioValue": 0
             }
           ],
           "topLevel": false,
@@ -3832,8 +3831,7 @@
             },
             {
               "name": "toleranceDeg",
-              "ioValue": 5,
-              "currentEquation": "5"
+              "ioValue": 5
             },
             {
               "name": "u",
@@ -4194,16 +4192,6 @@
           "ap2ID": "id-38188"
         },
         {
-          "ap2Name": "Shape 2",
-          "ap1ID": "id-27681",
-          "ap2ID": "id-27779"
-        },
-        {
-          "ap2Name": "assembly",
-          "ap1ID": "id-27681",
-          "ap2ID": "id-27788"
-        },
-        {
           "ap2Name": "Assembly",
           "ap1ID": "id-75348",
           "ap2ID": "id-75373"
@@ -4217,6 +4205,16 @@
           "ap2Name": "geometry",
           "ap1ID": "id-75373",
           "ap2ID": "id-40788"
+        },
+        {
+          "ap2Name": "Shape 2",
+          "ap1ID": "id-27681",
+          "ap2ID": "id-27779"
+        },
+        {
+          "ap2Name": "assembly",
+          "ap1ID": "id-27681",
+          "ap2ID": "id-27788"
         }
       ],
       "fileTypeVersion": 1
@@ -4430,8 +4428,8 @@
         },
         {
           "name": "File Type",
-          "ioValue": "STEP",
-          "currentEquation": "STEP"
+          "ioValue": "STL",
+          "currentEquation": "STL"
         },
         {
           "name": "Resolution (dpi)",
@@ -4443,7 +4441,7 @@
           "currentEquation": "kayakhull"
         }
       ],
-      "type": null,
+      "type": "STL",
       "resolution": 96,
       "importIndex": 0,
       "partName": "kayakhull"
@@ -4589,7 +4587,7 @@
       "atomType": "GitHubMolecule",
       "x": 0.6,
       "y": 0.8,
-      "uniqueID": "id-75387",
+      "uniqueID": "id-75916",
       "name": "facesToSolid",
       "ioValues": [
         {
@@ -4603,7 +4601,7 @@
           "atomType": "Output",
           "x": 1,
           "y": 0.5,
-          "uniqueID": "id-75384",
+          "uniqueID": "id-75913",
           "ioValues": [
             {
               "name": "number or geometry",
@@ -4615,7 +4613,7 @@
           "atomType": "Code",
           "x": 0.5,
           "y": 0.4,
-          "uniqueID": "id-75385",
+          "uniqueID": "id-75914",
           "ioValues": [
             {
               "name": "faces",
@@ -4630,7 +4628,7 @@
           "atomType": "Input",
           "x": 0,
           "y": 0.1,
-          "uniqueID": "id-75386",
+          "uniqueID": "id-75915",
           "name": "FaceAssembly",
           "type": "geometry"
         }
@@ -4638,13 +4636,13 @@
       "allConnectors": [
         {
           "ap2Name": "number or geometry",
-          "ap1ID": "id-75385",
-          "ap2ID": "id-75384"
+          "ap1ID": "id-75914",
+          "ap2ID": "id-75913"
         },
         {
           "ap2Name": "faces",
-          "ap1ID": "id-75386",
-          "ap2ID": "id-75385"
+          "ap1ID": "id-75915",
+          "ap2ID": "id-75914"
         }
       ],
       "parentRepo": {
@@ -4675,14 +4673,14 @@
       },
       "unitsKey": "Unitless",
       "fileTypeVersion": 1,
-      "lastReloadedFromGithubAt": 1789497530213
+      "lastReloadedFromGithubAt": 1789497688658
     }
   ],
   "allConnectors": [
     {
       "ap2Name": "FaceAssembly",
       "ap1ID": "id-27926",
-      "ap2ID": "id-75387"
+      "ap2ID": "id-75916"
     },
     {
       "ap2Name": "Shape 5",
@@ -4721,12 +4719,12 @@
     },
     {
       "ap2Name": "geometry",
-      "ap1ID": "id-75387",
+      "ap1ID": "id-75916",
       "ap2ID": "id-74145"
     },
     {
       "ap2Name": "Face",
-      "ap1ID": "id-75387",
+      "ap1ID": "id-75916",
       "ap2ID": "id-74681"
     }
   ],
